@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 # authentication
 gem 'devise', :github => 'plataformatec/devise', :branch => 'master'
+gem 'devise_token_auth'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-kakao'
