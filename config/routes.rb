@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       devise_scope :user do
         post 'registrations' => 'registrations#create', :as => 'register'
         post 'registrationsFB' => 'registrations#createFB'
+        pose 'registrationsKK' => 'registrations#createKK'
 
         post 'sign_in' => 'sessions#create'
         

@@ -6,10 +6,7 @@ one:
   accesstoken: MyString
   refreshtoken: MyString
   uid: MyString
-  name: MyString
   email: MyString
-  nickname: MyString
-  image: MyString
 
 two:
   user: two
@@ -17,7 +14,4 @@ two:
   accesstoken: MyString
   refreshtoken: MyString
   uid: MyString
-  name: MyString
   email: MyString
-  nickname: MyString
-  image: MyString
