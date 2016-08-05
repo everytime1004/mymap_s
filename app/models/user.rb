@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable, :omniauthable,:omniauthable, :omniauth_providers => [:facebook, :kakao]
+          :omniauthable,:omniauthable, :omniauth_providers => [:facebook, :kakao]
   include DeviseTokenAuth::Concerns::User
 
   has_many :identities
