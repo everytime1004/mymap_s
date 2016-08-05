@@ -152,7 +152,9 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::ApplicationController
            :json => { :success => true,
                       :info => "회원가입이 되었습니다. 환영합니다!",
                       :data => resource_data,
-                      :token => @resource.tokens }
+                      :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
+                      # @resource.tokens하면 hash로 나오는데 거기서 token만 뽑기위해서 collect함.
+                      #여기서 토큰이 여러개 생길 수 있기 때문에 가장 최근에 생긴 .last에서 token을 뽑음
   end
 
   def render_create_error
