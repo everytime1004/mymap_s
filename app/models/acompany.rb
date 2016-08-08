@@ -1,0 +1,2 @@
+class Acompany < ApplicationRecord
+end

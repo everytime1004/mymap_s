@@ -5,7 +5,11 @@ class User < ApplicationRecord
           :omniauthable,:omniauthable, :omniauth_providers => [:facebook, :kakao]
   include DeviseTokenAuth::Concerns::User
 
-  has_many :identities
+  has_many :identities, dependent: :destroy
+  has_many :tours
+
+  has_many :friendships, dependent: :destroy
+  has_many :friends, :through => :friendships
 
   def facebook
     identities.where( :provider => "facebook" ).first
