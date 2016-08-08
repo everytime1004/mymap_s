@@ -131,6 +131,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::ApplicationController
 
   protected
 
+
   def render_create_error_missing_confirm_success_url
     render json: {
       status: 'error',

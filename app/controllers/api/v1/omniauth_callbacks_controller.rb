@@ -1,5 +1,5 @@
 class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationController
-
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
   attr_reader :auth_params
   skip_before_action :set_user_by_token, raise: false
   skip_after_action :update_auth_header
@@ -22,23 +22,24 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
   end
 
   def omniauth_success
-    get_resource_from_auth_hash
-    create_token_info
-    set_token_on_resource
-    create_auth_params
 
-    if resource_class.devise_modules.include?(:confirmable)
-      # don't send confirmation email!!!
-      @resource.skip_confirmation!
+    if(!get_resource_from_auth_hash[1])
+      create_token_info
+      set_token_on_resource
+
+      sign_in(:user, @resource, store: false, bypass: false)
+
+      @resource.save!
+
+      yield @resource if block_given?
+
+      params.permit!
+
+      @resource.identities.create(uid: params[:user][:uid], provider: params[:user][:provider], name: params[:user][:name],
+                                    accesstoken: params[:user][:accesstoken], photos: params[:user][:photos])
     end
-
-    sign_in(:user, @resource, store: false, bypass: false)
-
-    @resource.save!
-
-    yield @resource if block_given?
-
-    render_data_or_redirect('deliverCredentials', @auth_params.as_json, @resource.as_json)
+    
+    render_omniauth_success
   end
 
   def omniauth_failure
@@ -163,18 +164,6 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
     @config    = omniauth_params['config_name']
   end
 
-  def create_auth_params
-    @auth_params = {
-      auth_token:     @token,
-      client_id: @client_id,
-      uid:       @resource.uid,
-      expiry:    @expiry,
-      config:    @config
-    }
-    @auth_params.merge!(oauth_registration: true) if @oauth_registration
-    @auth_params
-  end
-
   def set_token_on_resource
     @resource.tokens[@client_id] = {
       token: BCrypt::Password.create(@token),
@@ -228,23 +217,50 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
 
   def get_resource_from_auth_hash
     # find or create user by provider and provider uid
-    @resource = resource_class.where({
-      uid:      auth_hash['uid'],
-      provider: auth_hash['provider']
-    }).first_or_initialize
+    if(@identity = Identity.find_by_uid(params[:user][:uid]))
+      # always update identity(sns information) whenever user sign_in
+      @identity.assign_attributes(uid: params[:user][:uid], provider: params[:user][:provider],
+                                  accesstoken: params[:user][:accesstoken], photos: params[:user][:picture])
+      @user = User.find_by_id(@identity.user_id)
 
-    if @resource.new_record?
-      @oauth_registration = true
-      set_random_password
+      @resource = sign_in(@user, store: false, bypass: false)
+
+      return @resource, true
+    else
+      @resource = User.where({
+        uid:      params[:user][:uid],
+        provider: params[:user][:provider],
+        email: params[:user][:email].blank? ? "changeMe-#{params[:user][:uid]}-#{params[:user][:provider]}.com" : params[:user][:email]
+      }).first_or_initialize
+
+      if @resource.new_record?  
+        set_random_password
+      end
+
+      return @resource, false
     end
 
     # sync user info with provider, update/generate auth token
-    assign_provider_attrs(@resource, auth_hash)
+    #assign_provider_attrs(@resource, auth_hash)
 
     # assign any additional (whitelisted) attributes
-    extra_params = whitelisted_params
-    @resource.assign_attributes(extra_params) if extra_params
-
-    @resource
+    #extra_params = whitelisted_params
+    #@resource.assign_attributes(extra_params) if extra_params
   end
+
+  def create_identity_from_provider(provider)
+    case provider
+      when 'fb' then 
+      when 'kk' then
+    end
+  end
+
+  def render_omniauth_success
+    render :status => 200,
+           :json => { :success => true,
+                      :info => "로그인 되었습니다.",
+                      :data => @resource.identities.find_by_provider(params[:user][:provider]),
+                      :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
+  end
+
 end

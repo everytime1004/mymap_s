@@ -6,8 +6,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       devise_scope :user do
         post 'registrations' => 'registrations#create', :as => 'register'
-        post 'registrationsFB' => 'registrations#createFB'
-        pose 'registrationsKK' => 'registrations#createKK'
+        post 'registrationsFB' => 'omniauth_callbacks#omniauth_success'
+        post 'registrationsKK' => 'omniauth_callbacks#omniauth_success'
 
         post 'sign_in' => 'sessions#create'
         

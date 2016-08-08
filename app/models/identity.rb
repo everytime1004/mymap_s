@@ -13,5 +13,5 @@ class Identity < ApplicationRecord
   #   identity.image = auth.info.image
   #   identity.save
   #   identity
-  end
+  # end
 end

@@ -4,10 +4,11 @@ class CreateIdentities < ActiveRecord::Migration[5.0]
       t.references :user, foreign_key: true
       t.string :provider
       t.string :accesstoken
-      t.string :refreshtoken
+      t.string :refreshtoken, default: ""
       t.string :uid
-      t.string :email
-      t.string :photo
+      t.string :email, default: ""
+      t.string :name, defualt: ""
+      t.string :photos, default: ""
 
       t.timestamps
     end
