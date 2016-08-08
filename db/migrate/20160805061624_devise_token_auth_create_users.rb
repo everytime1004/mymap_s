@@ -35,7 +35,6 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
 
       ## User Info
       t.string :name, :default => ""
-      t.string :image, :default => ""
       t.string :email
 
       ## Tokens
