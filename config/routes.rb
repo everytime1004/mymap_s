@@ -10,8 +10,12 @@ Rails.application.routes.draw do
         post 'registrationsKK' => 'omniauth_callbacks#omniauth_success'
 
         post 'sign_in' => 'sessions#create'
+
+        get '/uploads/default.png' => 'users#show'
         
       end
     end
   end
+
+  get 'uploads/default.png' => 'users#show'
 end

@@ -36,7 +36,7 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
       params.permit!
 
       @resource.identities.create(uid: params[:user][:uid], provider: params[:user][:provider], name: params[:user][:name],
-                                    accesstoken: params[:user][:accesstoken], photos: params[:user][:photos])
+                                    accesstoken: params[:user][:accesstoken], image: params[:user][:image])
     end
     
     render_omniauth_success
@@ -220,7 +220,7 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
     if(@identity = Identity.find_by_uid(params[:user][:uid]))
       # always update identity(sns information) whenever user sign_in
       @identity.assign_attributes(uid: params[:user][:uid], provider: params[:user][:provider],
-                                  accesstoken: params[:user][:accesstoken], photos: params[:user][:picture])
+                                  accesstoken: params[:user][:accesstoken], image: params[:user][:picture])
       @user = User.find_by_id(@identity.user_id)
 
       @resource = sign_in(@user, store: false, bypass: false)

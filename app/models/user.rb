@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :friendships, dependent: :destroy
   has_many :friends, :through => :friendships
 
-  mount_uploader :images, ImageUploader
+  mount_uploader :image, ImageUploader
 
   def facebook
     identities.where( :provider => "facebook" ).first

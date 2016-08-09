@@ -8,7 +8,7 @@ class CreateIdentities < ActiveRecord::Migration[5.0]
       t.string :uid
       t.string :email, default: ""
       t.string :name, defualt: ""
-      t.string :photos, default: ""
+      t.string :image, default: ""
 
       t.timestamps
     end

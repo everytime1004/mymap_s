@@ -28,13 +28,7 @@ class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
 
       @resource = resource_class.where(q, q_value).first
     end
-    print "alkdjaskldjdklsjklasjdsj|"
-    print valid_params?(field, q_value)
-    print "|"
-    print @resource.valid_password?(resource_params[:password])
-    print "|"
-    print @resource.active_for_authentication?
-    print "|"
+    
     if @resource and valid_params?(field, q_value) and @resource.valid_password?(resource_params[:password])
       # create client id
       @client_id = SecureRandom.urlsafe_base64(nil, false)
@@ -112,10 +106,11 @@ class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
 
   def render_create_success
     render :status => 200,
-            :json => { :success => true,
-                        :info => "로그인 되셨습니다. 환영합니다!",
-                        :data => resource_data(resource_json: @resource.token_validation_response),
-                        :token => @resource.tokens}
+           :json => { :success => true,
+                      :info => "로그인 되었습니다. 환영합니다!",
+                      :data => resource_data,
+                      :image => (@resource.image.filename ? @resource.image.store_path : ImageUploader.new.default_url),
+                      :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
     
   end
 
@@ -127,9 +122,9 @@ class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
   end
 
   def render_create_error_bad_credentials
-    render json: {
-      errors: [I18n.t("devise_token_auth.sessions.bad_credentials")]
-    }, status: 401
+    render :status => 401,
+           :json => { :success => true,
+                      :info => "로그인 정보를 다시 확인해주세요." }
   end
 
   def render_destroy_success
