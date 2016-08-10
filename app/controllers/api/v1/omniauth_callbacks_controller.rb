@@ -260,6 +260,7 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
            :json => { :success => true,
                       :info => "로그인 되었습니다.",
                       :data => @resource.identities.find_by_provider(params[:user][:provider]),
+                      :client_id => @resource.tokens.collect{|key, hash| key}.last,
                       :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
   end
 

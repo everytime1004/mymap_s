@@ -57,7 +57,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def default_path
-    "uploads/default.png"
+    ActionController::Base.helpers.asset_path("default.png")
   end
 
 end
