@@ -3,7 +3,7 @@ class CreateAcompanies < ActiveRecord::Migration[5.0]
     create_table :acompanies do |t|
       t.references	:tour
       
-      t.user_id 	:integer
+      t.integer 	:user_id
 
       t.timestamps
     end

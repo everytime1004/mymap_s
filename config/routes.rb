@@ -10,7 +10,7 @@ Rails.application.routes.draw do
         post 'registrationsKK' => 'omniauth_callbacks#omniauth_success'
 
         post 'sign_in' => 'sessions#create'
-        
+        delete 'sign_out' => 'sessions#destroy'
       end
     end
   end
