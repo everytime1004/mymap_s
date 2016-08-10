@@ -189,15 +189,7 @@ class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
     return false unless @token
     # mitigate timing attacks by finding by uid instead of auth token
     user = uid && rc.find_by_uid(uid)
-    print "||||\n\n|||||"
-    print user.tokens
-    print "||||\n\n|||||"
-    print @token
-    print "||||\n\n|||||"
-    print @client_id
-
-    print "||||\n\n|||||"
-
+    
     if user && user.valid_token?(@token, @client_id)
       # sign_in with bypass: true will be deprecated in the next version of Devise
       if self.respond_to? :bypass_sign_in
@@ -212,21 +204,4 @@ class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
       return @resource = nil
     end
   end
-
-  def valid_token?(token, client_id='default')
-    client_id ||= 'default'
-
-    print self
-    print "||||\n\n|||||"
-    a
-
-    return false unless self.tokens[client_id]
-
-    return true if token_is_current?(token, client_id)
-    return true if token_can_be_reused?(token, client_id)
-
-    # return false if none of the above conditions are met
-    return false
-  end
-
 end

@@ -24,15 +24,6 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
   def omniauth_success
 
     if(!get_resource_from_auth_hash[1])
-      create_token_info
-      set_token_on_resource
-
-      sign_in(:user, @resource, store: false, bypass: false)
-
-      @resource.save!
-
-      yield @resource if block_given?
-
       params.permit!
 
       @resource.identities.create(uid: params[:user][:uid], provider: params[:user][:provider], name: params[:user][:name],
@@ -225,7 +216,7 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
 
       @resource = sign_in(@user, store: false, bypass: false)
 
-      return @resource, true
+      exist = true
     else
       @resource = User.where({
         uid:      params[:user][:uid],
@@ -237,7 +228,18 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
         set_random_password
       end
 
-      return @resource, false
+      sign_in(:user, @resource, store: false, bypass: false)
+
+      exist = false
+    end
+
+    create_token_info
+    set_token_on_resource
+
+    if @resource.save!
+      return @resource, exist
+    else
+      render_omniauth_failed
     end
 
     # sync user info with provider, update/generate auth token
@@ -262,6 +264,13 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
                       :data => @resource.identities.find_by_provider(params[:user][:provider]),
                       :client_id => @resource.tokens.collect{|key, hash| key}.last,
                       :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
+  end
+
+  def render_omniauth_failed
+    render :status => 401,
+           :json => { :success => true,
+                      :info => "로그인 중에 문제가 발생했습니다."
+                    }
   end
 
 end
