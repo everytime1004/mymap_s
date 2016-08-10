@@ -224,7 +224,7 @@ class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationControl
         email: params[:user][:email].blank? ? "changeMe-#{params[:user][:uid]}-#{params[:user][:provider]}.com" : params[:user][:email]
       }).first_or_initialize
 
-      if @resource.new_record?  
+      if @resource.new_record?
         set_random_password
       end
 

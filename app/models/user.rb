@@ -50,6 +50,12 @@ class User < ApplicationRecord
     @token_equality_cache ||= {}
     key = "#{token_hash}/#{token}"
     result = @token_equality_cache[key] ||= (::BCrypt::Password.new(token_hash).to_s == token)
+    print "\n\n|||||||||||||||||\n\n"
+    print key
+    print "\n\n|||||||||||||||||\n\n"
+    print result
+    print "\n\n|||||||||||||||||\n\n"
+
     if @token_equality_cache.size > 10000
       @token_equality_cache = {}
     end
@@ -72,7 +78,7 @@ class User < ApplicationRecord
     # ghetto HashWithIndifferentAccess
     expiry     = self.tokens[client_id]['expiry'] || self.tokens[client_id][:expiry]
     token_hash = self.tokens[client_id]['token'] || self.tokens[client_id][:token]
-
+    
     return true if (
       # ensure that expiry and token are set
       expiry and token and

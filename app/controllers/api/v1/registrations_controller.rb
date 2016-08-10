@@ -2,6 +2,8 @@
 class Api::V1::RegistrationsController < DeviseTokenAuth::ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
   respond_to :json
+  before_action :set_user_by_token, :only => [:destroy, :update]
+  skip_after_action :update_auth_header, :only => [:create, :destroy]
 
   def create
     @resource            = resource_class.new(sign_up_params)
@@ -51,7 +53,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::ApplicationController
         @resource.save!
 
         update_auth_header
-      
+
         render_create_success
       else
         clean_up_passwords @resource
@@ -153,7 +155,8 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::ApplicationController
            :json => { :success => true,
                       :info => "회원가입이 되었습니다. 환영합니다!",
                       :data => resource_data,
-                      :image => (@resource.image.filename ? @resource.image.store_path : ImageUploader.new.default_url),
+                      :client_id => @resource.tokens.collect{|key, hash| key}.last,
+                      :image => (@resource.image.filename ? @resource.image.store_path : ImageUploader.new.default_path),
                       :token => @resource.tokens.collect{|key, hash| hash}.last["token"] }
                       # @resource.tokens하면 hash로 나오는데 거기서 token만 뽑기위해서 collect함.
                       #여기서 토큰이 여러개 생길 수 있기 때문에 가장 최근에 생긴 .last에서 token을 뽑음
