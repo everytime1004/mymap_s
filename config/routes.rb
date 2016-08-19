@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
         post 'sign_in' => 'sessions#create'
         delete 'sign_out' => 'sessions#destroy'
+
+        get 'notices' => 'notices#index'
       end
     end
   end
