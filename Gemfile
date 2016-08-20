@@ -55,17 +55,17 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'mysql2'
+
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-unicorn'
+  gem 'capistrano-git-copy', require: false
+
 end
 
 group :production do
   gem 'mysql2'
-  
-  gem 'capistrano', '~> 3.1'
-  gem 'capistrano-bundler', '~> 1.1.2'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm', github: "capistrano/rvm"
-
-  gem 'capistrano3-unicorn'
 end
 
 gem 'unicorn'

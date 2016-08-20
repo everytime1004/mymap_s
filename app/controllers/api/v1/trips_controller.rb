@@ -14,10 +14,32 @@ class Api::V1::TripsController < ActionController::Base
   end
 
   def show
+    params.permit!
 
+    if @trip = Trip.find_by_id(params[:id])
+      
+      render_show_success
+    else
+      render_show_error
+    end  
   end
 
   protected
+
+  def render_show_success
+    render :status => 200,
+           :json => { :success => true,
+                      :info => "여행",
+                      :data => @trip
+                    }
+  end
+
+  def render_show_error
+    render :status => 401,
+           :json => { :success => true,
+                      :info => "보시려는 여행은 없습니다. 다시 시도해 주세요."
+                    }
+  end
 
   def render_create_success
     render :status => 200,
@@ -45,5 +67,7 @@ class Api::V1::TripsController < ActionController::Base
       errors: [I18n.t("devise_token_auth.sessions.user_not_found")]
     }, status: 404
   end
+
+
 
 end

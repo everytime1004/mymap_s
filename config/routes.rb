@@ -9,10 +9,15 @@ Rails.application.routes.draw do
         post 'registrationsFB' => 'omniauth_callbacks#omniauth_success'
         post 'registrationsKK' => 'omniauth_callbacks#omniauth_success'
 
-        post 'sign_in' => 'sessions#create'
-        delete 'sign_out' => 'sessions#destroy'
+        post 'sessions' => 'sessions#create'
+        delete 'sessions' => 'sessions#destroy'
 
         get 'notices' => 'notices#index'
+
+        post 'tours' => 'tours#create'
+        get 'tours/:id' => 'tours#show'
+
+        get 'trips/:id' => 'trips#show'
       end
     end
   end

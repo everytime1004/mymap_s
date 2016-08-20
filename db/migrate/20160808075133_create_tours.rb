@@ -6,7 +6,6 @@ class CreateTours < ActiveRecord::Migration[5.0]
       t.string		:description
       t.string		:location
       t.string		:theme
-      t.string		:expense
       t.string		:distance
 
       t.timestamps
