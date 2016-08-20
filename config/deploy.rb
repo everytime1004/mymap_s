@@ -24,6 +24,10 @@ namespace :deploy do
   task :restart do
     invoke 'unicorn:reload'
   end
+
+  task :printenv do 
+  	run "printenv"
+  end
 end
  
 # namespace :deploy do

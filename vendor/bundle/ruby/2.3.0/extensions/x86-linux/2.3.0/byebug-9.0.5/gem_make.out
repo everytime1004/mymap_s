@@ -1,0 +1,19 @@
+current directory: /home/everytime1004/Desktop/mymap_s/vendor/bundle/ruby/2.3.0/gems/byebug-9.0.5/ext/byebug
+/usr/local/rvm/rubies/ruby-2.3.0/bin/ruby -r ./siteconf20160820-1596-12kcn88.rb extconf.rb
+creating Makefile
+
+current directory: /home/everytime1004/Desktop/mymap_s/vendor/bundle/ruby/2.3.0/gems/byebug-9.0.5/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /home/everytime1004/Desktop/mymap_s/vendor/bundle/ruby/2.3.0/gems/byebug-9.0.5/ext/byebug
+make "DESTDIR="
+compiling locker.c
+compiling byebug.c
+compiling breakpoint.c
+compiling threads.c
+compiling context.c
+linking shared-object byebug/byebug.so
+
+current directory: /home/everytime1004/Desktop/mymap_s/vendor/bundle/ruby/2.3.0/gems/byebug-9.0.5/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20160820-1596-1c7jy6c/byebug

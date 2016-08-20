@@ -25,6 +25,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'execjs'
+gem 'therubyracer', :platforms => :ruby
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -60,7 +63,6 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano3-unicorn'
-  gem 'capistrano-git-copy', require: false
 
 end
 
