@@ -37,7 +37,7 @@ class Api::V1::ToursController < ActionController::Base
   def render_destroy_success
     render :status => 200,
            :json => { :success => true,
-                      :info => "로그아웃 되었습니다." }
+                      :info => "" }
   end
 
   def render_destroy_error

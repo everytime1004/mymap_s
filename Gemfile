@@ -59,7 +59,16 @@ end
 
 group :production do
   gem 'mysql2'
+  
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm', github: "capistrano/rvm"
+
+  gem 'capistrano3-unicorn'
 end
+
+gem 'unicorn'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
