@@ -56,7 +56,7 @@ class Api::V1::ToursController < ActionController::Base
     render :status => 200,
            :json => { :success => true,
                       :info => "여행을 시작합니다.",
-                      :data => @trip.id}
+                      :data => @tour.id}
     
   end
 
