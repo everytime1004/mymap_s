@@ -4,7 +4,7 @@ class CreateTrips < ActiveRecord::Migration[5.0]
       t.references :tour
 
       t.string		:title, :default => ""
-      t.text		:description, :default => ""
+      t.text		:description
 
       t.timestamps
     end
