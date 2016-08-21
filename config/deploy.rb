@@ -10,7 +10,7 @@ set :branch, "master"
 # set :repository, "https://github.com/everytime1004/likeholic_server.git
 
 set :unicorn_binary, "/usr/bin/unicorn"
-set :unicorn_config, "#{current_path}/config/unicorn.rb"
+set :unicorn_config, "#{current_path}/config/production.rb"
 set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 set :use_sudo, false
