@@ -1,6 +1,6 @@
-app_dir = "/home/deployer/apps/mymap_s/current"
-shared_dir = "#{app_dir}/../shared"
-working_directory app_dir
+app_dir = "/home/deployer/apps/mymap_s"
+shared_dir = "#{app_dir}/shared"
+working_directory "#{app_dir}/current"
 
 # Set unicorn options
 worker_processes 5

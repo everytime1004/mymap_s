@@ -9,6 +9,10 @@ set :repo_url, "git@github.com:everytime1004/mymap_s.git"
 set :branch, "master"
 # set :repository, "https://github.com/everytime1004/likeholic_server.git
 
+set :unicorn_binary, "/usr/bin/unicorn"
+set :unicorn_config, "#{current_path}/config/production.rb"
+set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
+
 set :use_sudo, false
 set :bundle_binstubs, nil
 set :linked_files, fetch(:linked_files, []).push('config/database.yml')
