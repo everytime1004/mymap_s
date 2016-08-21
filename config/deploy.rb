@@ -41,15 +41,15 @@ namespace :deploy do
 		run "printenv"
 	end
 end
-namespace :unicorn do
-    task :start do
-        desc "Unicorn start"
-        on roles(:app) do
-            run "kill -9 #{cat tmp/unicorn.pid}"
-            run "/etc/init.d/unicorn_mymap start"
-        end
-    end
-end
+# namespace :unicorn do
+#     task :start do
+#         desc "Unicorn start"
+#         on roles(:app) do
+#             run "kill -9 #{cat tmp/unicorn.pid}"
+#             run "/etc/init.d/unicorn_mymap start"
+#         end
+#     end
+# end
  
 # namespace :deploy do
 # 	%w[start stop restart].each do |command|
