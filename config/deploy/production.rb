@@ -61,14 +61,12 @@
 #     # password: 'please use keys'
 #   }
 
-set :port, 22
 set :user, 'deployer'
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
 server '64.137.175.187',
   roles: [:web, :app, :db],
-  port: fetch(:port),
   user: fetch(:user),
   primary: true
 
