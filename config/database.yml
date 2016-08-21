@@ -29,5 +29,5 @@ production:
   database: mymap
   pool: 15
   username: root
-  password: didi11
+  password: diDi!00$
   socket: /var/run/mysqld/mysqld.sock

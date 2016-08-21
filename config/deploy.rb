@@ -26,6 +26,7 @@ namespace :deploy do
     	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
+            upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
         end
     end
 
