@@ -15,7 +15,7 @@ stderr_path "#{shared_dir}/log/unicorn.stderr.log"
 stdout_path "#{shared_dir}/log/unicorn.stdout.log"
 
 # Set proccess id path
-pid "#{shared_dir}/pids/unicorn.pid"
+pid "#{shared_dir}/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
