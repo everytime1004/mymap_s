@@ -1,5 +1,5 @@
-app_dir = File.expand_path("../..", __FILE__)
-shared_dir = "#{app_dir}/shared"
+app_dir = "/home/deployer/apps/mymap_s/current"
+shared_dir = "#{app_dir}/../shared"
 working_directory app_dir
 
 # Set unicorn options
