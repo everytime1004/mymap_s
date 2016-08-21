@@ -16,7 +16,6 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-    after 'puma:smart_restart', 'nginx:restart'
 
     task :check do
         on roles(:app) do
