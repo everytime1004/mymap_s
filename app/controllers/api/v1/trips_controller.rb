@@ -45,7 +45,7 @@ class Api::V1::TripsController < ActionController::Base
     render :status => 200,
            :json => { :success => true,
                       :info => "",
-                      :data => }
+                      :data => @trip}
     
   end
 
