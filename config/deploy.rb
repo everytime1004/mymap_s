@@ -23,15 +23,15 @@ after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
     task :started do
+    	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
-        	desc "SCP transfer figaro configuration to the shared folder"
             upload! "config/application.yml", "#{shared_path}/application.yml", via: :scp
         end
     end
 
     task :symlink do
+    	desc "Symlink application.yml to the release path"
         on roles(:app) do
-        	desc "Symlink application.yml to the release path"
             execute "ln -sf #{shared_path}/application.yml #{release_path}/config/application.yml"
         end
     end
