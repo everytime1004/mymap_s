@@ -23,7 +23,7 @@ namespace :deploy do
         on roles(:app) do
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
             upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
-            upload! "config/puma.rb", "#{shared_path}/config/puma.rb", via: :setup_config
+            upload! "config/puma.rb", "#{shared_path}/config/puma.rb", via: :scp
             set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma.rb', 'config/application.yml')
         end
     end
