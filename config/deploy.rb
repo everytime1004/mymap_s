@@ -16,10 +16,6 @@ set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 set :use_sudo, false
 set :bundle_binstubs, nil
 set :linked_files, fetch(:linked_files, []).push('config/database.yml')
-set :linked_files, fetch(:linked_files, []).push('config/application.yml')
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-
-after 'deploy:publishing', 'deploy:restart'
 
 namespace :figaro do
     desc "SCP transfer figaro configuration to the shared folder"
@@ -37,6 +33,13 @@ namespace :figaro do
     end
 
 end
+
+
+set :linked_files, fetch(:linked_files, []).push('config/application.yml')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+
+after 'deploy:publishing', 'deploy:restart'
+
 
 namespace :deploy do
   task :restart do
