@@ -9,7 +9,7 @@ stdout_path "#{root}/log/unicorn.log"
 listen '/tmp/unicorn.spui.sock', backlog: 64
 preload_app true
 
-worker_processes 15
+worker_processes 5
 
 timeout 30
 
