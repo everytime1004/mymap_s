@@ -23,6 +23,7 @@ after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
     task :check do
+        d
     	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
