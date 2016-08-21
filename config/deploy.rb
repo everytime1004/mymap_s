@@ -37,25 +37,14 @@ namespace :deploy do
     #     end
     # end
 	task :restart do
-		invoke 'unicorn:reload'
-	end
+        invoke 'unicorn:legacy_restart'
+    end
 	
 	task :printenv do 
 		run "printenv"
 	end
 end
 
-namespace :unicorn do
-    task :reload do
-        on roles(:app) do
-            if test("[ -f #{fetch(:unicorn_pid)} ]")
-                execute :kill, '-s USR2', capture(:cat, fetch(:unicorn_pid))
-            else
-                error 'Unicorn process not running'
-            end
-        end
-    end
-end
  
 # namespace :deploy do
 # 	%w[start stop restart].each do |command|
