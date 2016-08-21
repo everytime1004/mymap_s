@@ -15,17 +15,16 @@ set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 set :use_sudo, false
 set :bundle_binstubs, nil
-set :linked_files, fetch(:linked_files, []).push('config/database.yml')
-set :linked_files, fetch(:linked_files, []).push('config/application.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', )
 
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-    task :check do
-        d
+    task :check do    
     	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
+            set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+            set :linked_files, fetch(:linked_files, []).push('config/application.yml')
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
             upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
         end
