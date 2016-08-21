@@ -11,6 +11,7 @@ set :branch, "master"
 
 set :use_sudo, false
 set :bundle_binstubs, nil
+set :pty, true
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', )
 
 after 'deploy:publishing', 'deploy:restart'
