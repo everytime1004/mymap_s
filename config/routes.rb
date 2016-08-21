@@ -11,14 +11,14 @@ Rails.application.routes.draw do
 
         post 'sessions' => 'sessions#create'
         delete 'sessions' => 'sessions#destroy'
-
-        get 'notices' => 'notices#index'
-
-        post 'tours' => 'tours#create'
-        get 'tours/:id' => 'tours#show'
-
-        get 'trips/:id' => 'trips#show'
       end
+
+      get 'notices' => 'notices#index'
+
+      post 'tours' => 'tours#create'
+      get 'tours/:id' => 'tours#show'
+
+      get 'trips/:id' => 'trips#show'
     end
   end
 end

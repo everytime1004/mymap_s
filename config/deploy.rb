@@ -22,7 +22,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-    task :started do
+    task :check do
     	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
