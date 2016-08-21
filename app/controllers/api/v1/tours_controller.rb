@@ -8,7 +8,7 @@ class Api::V1::ToursController < ActionController::Base
 
   def create
     params.permit!
-    @user = User.find_by_id(parmas[:user][:id])
+    @user = User.find_by_id(params[:user][:id])
 
     if @tour = @user.tours.create
       @tour.trips.create
