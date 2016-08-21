@@ -27,6 +27,7 @@ namespace :deploy do
             on roles(:app) do
                 upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
                 upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
+                upload! "config/puma.rb", "#{shared_path}/config/puma.rb", via: :scp
             end
         end
     end
