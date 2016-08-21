@@ -9,22 +9,22 @@ set :repo_url, "git@github.com:everytime1004/mymap_s.git"
 set :branch, "master"
 # set :repository, "https://github.com/everytime1004/likeholic_server.git
 
-set :unicorn_binary, "/usr/bin/unicorn"
-set :unicorn_config, "#{current_path}/config/production.rb"
-set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
-
 set :use_sudo, false
 set :bundle_binstubs, nil
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', )
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma.rb', 'config/application.yml')
+set :puma_conf, "#{shared_path}/config/puma.rb"
 
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-    task :check do    
+    before 'check:linked_files', 'puma:config'
+    before 'check:linked_files', 'puma:nginx_config'
+    after 'puma:smart_restart', 'nginx:restart'
+
+    task :check:linkedfiles do    
     	desc "SCP transfer figaro configuration to the shared folder"
         on roles(:app) do
-            set :linked_files, fetch(:linked_files, []).push('config/database.yml')
-            set :linked_files, fetch(:linked_files, []).push('config/application.yml')
             upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
             upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
         end
@@ -37,7 +37,7 @@ namespace :deploy do
     #     end
     # end
 	task :restart do
-        invoke 'unicorn:legacy_restart'
+        # invoke 'unicorn:legacy_restart'
     end
 	
 	task :printenv do 
