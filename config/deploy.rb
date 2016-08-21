@@ -9,11 +9,28 @@ set :repo_url, "git@github.com:everytime1004/mymap_s.git"
 set :branch, "master"
 # set :repository, "https://github.com/everytime1004/likeholic_server.git
 
+set :pty, true
 set :use_sudo, false
+set :stage, :production
+
+set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
+
 set :bundle_binstubs, nil
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', )
 
 after 'deploy:publishing', 'deploy:restart'
+
+namespace :puma do
+  desc 'Create Directories for Puma Pids and Socket'
+  task :make_dirs do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/tmp/sockets -p"
+      execute "mkdir #{shared_path}/tmp/pids -p"
+    end
+  end
+
+  before :start, :make_dirs
+end
 
 namespace :deploy do
 
