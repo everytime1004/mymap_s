@@ -12,21 +12,18 @@ set :branch, "master"
 set :use_sudo, false
 set :bundle_binstubs, nil
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', )
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma.rb', 'config/application.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma.rb', 'config/application.yml')
 
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-    before 'check:linked_files', 'puma:config'
-    # after 'puma:smart_restart', 'nginx:restart'
+    after 'puma:smart_restart', 'nginx:restart'
 
     task :check do
-        task :linked_files do
-            on roles(:app) do
-                upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
-                upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
-                # upload! "config/puma.rb", "#{shared_path}/config/puma.rb", via: :setup_config
-            end
+        on roles(:app) do
+            upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
+            upload! "config/database.yml", "#{shared_path}/config/database.yml", via: :scp
+            upload! "config/puma.rb", "#{shared_path}/config/puma.rb", via: :setup_config
         end
     end
 
