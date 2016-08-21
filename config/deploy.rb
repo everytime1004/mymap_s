@@ -24,17 +24,13 @@ after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
     task :started do
     	desc "SCP transfer figaro configuration to the shared folder"
+    	desc "Symlink application.yml to the release path"
         on roles(:app) do
-            upload! "config/application.yml", "#{shared_path}/application.yml", via: :scp
+            upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
+            execute "ln -sf #{shared_path}/config/application.yml #{release_path}/config/application.yml"
         end
     end
 
-    task :symlink do
-    	desc "Symlink application.yml to the release path"
-        on roles(:app) do
-            execute "ln -sf #{shared_path}/application.yml #{release_path}/config/application.yml"
-        end
-    end
 	task :restart do
 		invoke 'unicorn:reload'
 	end
