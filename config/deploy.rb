@@ -46,11 +46,13 @@ namespace :deploy do
 end
 
 namespace :unicorn do
-    task :start do
-        desc "Unicorn start"
+    task :reload do
         on roles(:app) do
-            execute "kill -QUIT `cat /home/deployer/apps/mymap_s/shared/tmp/pids/unicorn.pid`"
-            run "/etc/init.d/unicorn_mymap start"
+            if test("[ -f #{fetch(:unicorn_pid)} ]")
+                execute :kill, '-s USR2', capture(:cat, fetch(:unicorn_pid))
+            else
+                error 'Unicorn process not running'
+            end
         end
     end
 end
