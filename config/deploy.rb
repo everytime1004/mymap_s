@@ -49,7 +49,7 @@ namespace :unicorn do
     task :start do
         desc "Unicorn start"
         on roles(:app) do
-            execute "kill -QUIT `cat #{shared_path}/tmp/pids/unicorn.pid`"
+            execute "kill -QUIT `cat /home/deployer/apps/mymap_s/shared/tmp/pids/unicorn.pid`"
             run "/etc/init.d/unicorn_mymap start"
         end
     end
