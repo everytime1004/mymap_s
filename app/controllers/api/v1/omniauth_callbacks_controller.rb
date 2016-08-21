@@ -1,5 +1,7 @@
+# encoding: utf-8
 class Api::V1::OmniauthCallbacksController < DeviseTokenAuth::ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
+  respond_to :json
   attr_reader :auth_params
   skip_before_action :set_user_by_token, raise: false
   skip_after_action :update_auth_header

@@ -1,9 +1,11 @@
+# encoding: utf-8
 class Api::V1::SessionsController < DeviseTokenAuth::ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
 
   before_action :set_user_by_token, :only => [:destroy]
   after_action :reset_session, :only => [:destroy]
   skip_after_action :update_auth_header, :only => [:create, :destroy]
+  respond_to :json
   
   def new
     render_new_error
