@@ -36,13 +36,19 @@ namespace :deploy do
     #         execute "ln -sf #{shared_path}/config/application.yml #{release_path}/config/application.yml"
     #     end
     # end
-	task :restart do
-		invoke 'unicorn:reload'
-	end
 	
 	task :printenv do 
 		run "printenv"
 	end
+end
+namespace :unicorn do
+    task :start do
+        desc "Unicorn start"
+        on roles(:app) do
+            run "kill -9 #{cat tmp/unicorn.pid}"
+            run "/etc/init.d/unicorn_mymap start"
+        end
+    end
 end
  
 # namespace :deploy do
